@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Atom Explorer</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>ATOM EXPLORER</h1>
+        <p>Game Pengenalan Atom untuk SMP</p>
+      </header>
+
+      <!-- BAGIAN INTRODUCE -->
+      <div class="intro-screen" id="introScreen">
+        <div class="intro-header">
+          <h2>Selamat Datang di Atom Explorer!</h2>
+          <p>
+            Game edukasi interaktif untuk membantu kamu memahami struktur atom
+            dan unsur-unsur kimia dasar.
+          </p>
+        </div>
+
+        <h3>Tim Pengembang</h3>
+        <div class="team-members">
+          <div class="member-card">
+            <div class="member-avatar">
+              <img src="img/karin.jpg" />
+            </div>
+            <div class="member-info">
+              <div class="member-name">Karinda Cintia Ranita</div>
+              <div class="member-role">2305176003</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <img src="img/syahid.jpg" />
+            </div>
+            <div class="member-info">
+              <div class="member-name">Ahmad Syahid</div>
+              <div class="member-role">2305176008</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <img src="img/gambar1.jpg" />
+            </div>
+            <div class="member-info">
+              <div class="member-name">Muhammad Nabil</div>
+              <div class="member-role">2305176010</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <img src="img/bima.jpg" />
+            </div>
+            <div class="member-info">
+              <div class="member-name">Adhe Bhima Surya Saputra</div>
+              <div class="member-role">305176012</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <img src="img/nabila.jpg" />
+            </div>
+            <div class="member-info">
+              <div class="member-name">Nabila Safithri</div>
+              <div class="member-role">2305176032</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="start-button" id="startButton">Mulai Game</button>
+      </div>
+
+      <!-- ATOM-->
+      <div class="game-area hidden" id="gameScreen">
+        <button class="nav-button" id="backButton">← Tim</button>
+
+        <div class="element-name" id="elementName">-</div>
+
+        <div class="atom-display" id="atomDisplay">
+          <div class="nucleus" id="nucleus">-</div>
+        </div>
+
+        <div class="info-panel">
+          <div class="element-details">
+            <div class="element-detail">
+              <span>Nomor Atom:</span>
+              <span id="atomicNumber">-</span>
+            </div>
+            <div class="element-detail">
+              <span>Proton:</span>
+              <span id="protonCount">-</span>
+            </div>
+            <div class="element-detail">
+              <span>Neutron:</span>
+              <span id="neutronCount">-</span>
+            </div>
+            <div class="element-detail">
+              <span>Elektron:</span>
+              <span id="electronCount">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-area" id="questionArea">
+          <div id="questionText">Pertanyaan akan muncul di sini</div>
+          <div class="options" id="options">
+          </div>
+          <div class="feedback hidden" id="feedback"></div>
+        </div>
+
+        <div class="controls">
+          <button class="control-btn" id="nextBtn">Next</button>
+          <button class="control-btn" id="infoBtn">Informasi Atom</button>
+          <button class="control-btn" id="backToProfileBtn">Back</button>
+        </div>
+
+        <div class="score-display">Skor: <span id="scoreValue">0</span></div>
+      </div>
+    </div>
+
+    <script>
+      const elements = [
+        {
+          name: "Hidrogen",
+          symbol: "H",
+          atomicNumber: 1,
+          protons: 1,
+          neutrons: 0,
+          electrons: 1,
+          electronConfiguration: [1],
+          description:
+            "Gas paling ringan dan melimpah di alam semesta. Digunakan dalam bahan bakar dan produksi amonia.",
+        },
+        {
+          name: "Helium",
+          symbol: "He",
+          atomicNumber: 2,
+          protons: 2,
+          neutrons: 2,
+          electrons: 2,
+          electronConfiguration: [2],
+          description:
+            "Gas mulia yang ringan dan tidak reaktif. Digunakan dalam balon dan pendingin suhu rendah.",
+        },
+        {
+          name: "Lithium",
+          symbol: "Li",
+          atomicNumber: 3,
+          protons: 3,
+          neutrons: 4,
+          electrons: 3,
+          electronConfiguration: [2, 1],
+          description:
+            "Logam alkali yang reaktif dan ringan. Digunakan dalam baterai dan obat-obatan.",
+        },
+        {
+          name: "Beryllium",
+          symbol: "Be",
+          atomicNumber: 4,
+          protons: 4,
+          neutrons: 5,
+          electrons: 4,
+          electronConfiguration: [2, 2],
+          description:
+            "Logam abu-abu yang kuat namun ringan. Digunakan dalam alat penginderaan dan mesin ruang angkasa.",
+        },
+        {
+          name: "Boron",
+          symbol: "B",
+          atomicNumber: 5,
+          protons: 5,
+          neutrons: 6,
+          electrons: 5,
+          electronConfiguration: [2, 3],
+          description:
+            "Semilogam yang digunakan dalam deterjen dan kaca borosilikat.",
+        },
+        {
+          name: "Karbon",
+          symbol: "C",
+          atomicNumber: 6,
+          protons: 6,
+          neutrons: 6,
+          electrons: 6,
+          electronConfiguration: [2, 4],
+          description:
+            "Dasar kehidupan di Bumi. Ditemukan dalam semua makhluk hidup dan dapat membentuk berlian dan grafit.",
+        },
+        {
+          name: "Nitrogen",
+          symbol: "N",
+          atomicNumber: 7,
+          protons: 7,
+          neutrons: 7,
+          electrons: 7,
+          electronConfiguration: [2, 5],
+          description:
+            "Gas yang membentuk sebagian besar atmosfer Bumi. Penting untuk pertumbuhan tanaman.",
+        },
+        {
+          name: "Oksigen",
+          symbol: "O",
+          atomicNumber: 8,
+          protons: 8,
+          neutrons: 8,
+          electrons: 8,
+          electronConfiguration: [2, 6],
+          description:
+            "Gas yang diperlukan untuk pernapasan dan pembakaran. Membentuk sekitar 21% dari atmosfer Bumi.",
+        },
+        {
+          name: "Fluor",
+          symbol: "F",
+          atomicNumber: 9,
+          protons: 9,
+          neutrons: 10,
+          electrons: 9,
+          electronConfiguration: [2, 7],
+          description:
+            "Halogen yang sangat reaktif. Digunakan dalam pasta gigi dan refrigeran.",
+        },
+        {
+          name: "Neon",
+          symbol: "Ne",
+          atomicNumber: 10,
+          protons: 10,
+          neutrons: 10,
+          electrons: 10,
+          electronConfiguration: [2, 8],
+          description:
+            "Gas mulia yang digunakan dalam lampu neon dengan warna oranye-merah yang khas.",
+        },
+      ];
+
+      // BAGIAN SOAL
+      const questionTypes = [
+        {
+          type: "protonCount",
+          question: "Berapa jumlah proton dalam atom {element}?",
+          generateOptions: (element) => {
+            return [
+              element.protons,
+              element.protons + 1,
+              element.protons - 1,
+              element.protons + 2,
+            ]
+              .filter((n) => n > 0)
+              .sort(() => Math.random() - 0.5);
+          },
+          correctAnswer: (element) => element.protons,
+        },
+        {
+          type: "electronCount",
+          question: "Berapa jumlah elektron dalam atom {element}?",
+          generateOptions: (element) => {
+            return [
+              element.electrons,
+              element.electrons + 1,
+              element.electrons - 1,
+              element.electrons + 2,
+            ]
+              .filter((n) => n > 0)
+              .sort(() => Math.random() - 0.5);
+          },
+          correctAnswer: (element) => element.electrons,
+        },
+        {
+          type: "neutronCount",
+          question: "Berapa jumlah neutron dalam atom {element}?",
+          generateOptions: (element) => {
+            return [
+              element.neutrons,
+              element.neutrons + 1,
+              element.neutrons - 1,
+              element.neutrons + 2,
+            ]
+              .filter((n) => n > 0)
+              .sort(() => Math.random() - 0.5);
+          },
+          correctAnswer: (element) => element.neutrons,
+        },
+        {
+          type: "atomicNumber",
+          question: "Berapakah nomor atom dari {element}?",
+          generateOptions: (element) => {
+            return [
+              element.atomicNumber,
+              element.atomicNumber + 1,
+              element.atomicNumber - 1,
+              element.atomicNumber + 2,
+            ]
+              .filter((n) => n > 0)
+              .sort(() => Math.random() - 0.5);
+          },
+          correctAnswer: (element) => element.atomicNumber,
+        },
+        {
+          type: "electronConfig",
+          question: "Berapa elektron pada kulit terluar atom {element}?",
+          generateOptions: (element) => {
+            const outerElectrons =
+              element.electronConfiguration[
+                element.electronConfiguration.length - 1
+              ];
+            return [
+              outerElectrons,
+              outerElectrons + 1,
+              outerElectrons - 1,
+              outerElectrons + 2,
+            ]
+              .filter((n) => n > 0 && n < 9)
+              .sort(() => Math.random() - 0.5);
+          },
+          correctAnswer: (element) =>
+            element.electronConfiguration[
+              element.electronConfiguration.length - 1
+            ],
+        },
+      ];
+
+      // Game state
+      let currentElement = null;
+      let currentQuestion = null;
+      let correctAnswer = null;
+      let score = 0;
+      let answered = false;
+
+      // BAGIAN JS
+      const introScreen = document.getElementById("introScreen");
+      const gameScreen = document.getElementById("gameScreen");
+      const startButton = document.getElementById("startButton");
+      const backButton = document.getElementById("backButton");
+      const atomDisplay = document.getElementById("atomDisplay");
+      const nucleus = document.getElementById("nucleus");
+      const elementName = document.getElementById("elementName");
+      const atomicNumber = document.getElementById("atomicNumber");
+      const protonCount = document.getElementById("protonCount");
+      const neutronCount = document.getElementById("neutronCount");
+      const electronCount = document.getElementById("electronCount");
+      const questionArea = document.getElementById("questionArea");
+      const questionText = document.getElementById("questionText");
+      const options = document.getElementById("options");
+      const feedback = document.getElementById("feedback");
+      const nextBtn = document.getElementById("nextBtn");
+      const infoBtn = document.getElementById("infoBtn");
+      const scoreValue = document.getElementById("scoreValue");
+      const backToProfileBtn = document.getElementById("backToProfileBtn");
+
+      // Initialize game
+      function init() {
+        // Add navigation event listeners
+        startButton.addEventListener("click", showGameScreen);
+        backButton.addEventListener("click", showIntroScreen);
+        backToProfileBtn.addEventListener("click", showIntroScreen);
+
+        // Add game control event listeners
+        nextBtn.addEventListener("click", loadNextElement);
+        infoBtn.addEventListener("click", showElementInfo);
+      }
+
+      // Switch to game screen
+      function showGameScreen() {
+        introScreen.classList.add("hidden");
+        gameScreen.classList.remove("hidden");
+
+        // Start the game if first time
+        if (!currentElement) {
+          loadNextElement();
+        }
+      }
+
+      // Switch to intro screen
+      function showIntroScreen() {
+        gameScreen.classList.add("hidden");
+        introScreen.classList.remove("hidden");
+      }
+
+      // Load a random element
+      function loadNextElement() {
+        // Reset state
+        clearAtomDisplay();
+        feedback.classList.add("hidden");
+        answered = false;
+
+        // Get random element
+        const randomIndex = Math.floor(Math.random() * elements.length);
+        currentElement = elements[randomIndex];
+
+        // Update UI
+        displayElement(currentElement);
+        generateQuestion(currentElement);
+      }
+
+      // Display element in the atom visualizer
+      function displayElement(element) {
+        elementName.textContent = `${element.name} (${element.symbol})`;
+        atomicNumber.textContent = element.atomicNumber;
+        protonCount.textContent = element.protons;
+        neutronCount.textContent = element.neutrons;
+        electronCount.textContent = element.electrons;
+
+        // Update nucleus
+        nucleus.textContent = element.symbol;
+
+        // Create orbits and electrons
+        createOrbitsAndElectrons(element);
+      }
+
+      // Create orbits and electrons in the visualization
+      function createOrbitsAndElectrons(element) {
+        const config = element.electronConfiguration;
+
+        // Adjust orbit gap based on screen size for responsiveness
+        let orbitGap = 40;
+        if (window.innerWidth <= 768) {
+          orbitGap = 35;
+        }
+        if (window.innerWidth <= 576) {
+          orbitGap = 30;
+        }
+        if (window.innerWidth <= 400) {
+          orbitGap = 25;
+        }
+
+        // Create orbits and electrons for each shell
+        for (let i = 0; i < config.length; i++) {
+          const shellRadius = 50 + i * orbitGap;
+          const electronCount = config[i];
+
+          // Create orbit
+          const orbit = document.createElement("div");
+          orbit.className = "orbit";
+          orbit.style.width = `${shellRadius * 2}px`;
+          orbit.style.height = `${shellRadius * 2}px`;
+          atomDisplay.appendChild(orbit);
+
+          // Create electrons for this orbit
+          for (let j = 0; j < electronCount; j++) {
+            const angle = (j / electronCount) * 2 * Math.PI;
+            const electron = document.createElement("div");
+            electron.className = "electron";
+
+            // Position electron on the orbit
+            const x = shellRadius * Math.cos(angle);
+            const y = shellRadius * Math.sin(angle);
+            electron.style.transform = `translate(${x}px, ${y}px)`;
+
+            // Add animation
+            animateElectron(electron, shellRadius, j, electronCount);
+
+            atomDisplay.appendChild(electron);
+          }
+        }
+      }
+
+      // Animate electrons
+      function animateElectron(electron, radius, index, total) {
+        const speed = 2 + Math.random(); // Slightly varying speeds
+        const startAngle = (index / total) * 2 * Math.PI;
+        let angle = startAngle;
+
+        function updatePosition() {
+          angle += 0.01 * speed;
+          if (angle > 2 * Math.PI) {
+            angle = 0;
+          }
+
+          const x = radius * Math.cos(angle);
+          const y = radius * Math.sin(angle);
+          electron.style.transform = `translate(${x}px, ${y}px)`;
+
+          // Continue animation if electron still exists in DOM
+          if (electron.parentNode) {
+            requestAnimationFrame(updatePosition);
+          }
+        }
+
+        requestAnimationFrame(updatePosition);
+      }
+
+      // Clear the atom display
+      function clearAtomDisplay() {
+        const orbits = atomDisplay.querySelectorAll(".orbit");
+        const electrons = atomDisplay.querySelectorAll(".electron");
+
+        orbits.forEach((orbit) => orbit.remove());
+        electrons.forEach((electron) => electron.remove());
+      }
+
+      // Generate a random question
+      function generateQuestion(element) {
+        // Pick a random question type
+        const randomIndex = Math.floor(Math.random() * questionTypes.length);
+        currentQuestion = questionTypes[randomIndex];
+
+        // Format the question
+        questionText.textContent = currentQuestion.question.replace(
+          "{element}",
+          element.name
+        );
+
+        const questionOptions = currentQuestion.generateOptions(element);
+        correctAnswer = currentQuestion.correctAnswer(element);
+
+        options.innerHTML = "";
+
+        questionOptions.forEach((option) => {
+          const button = document.createElement("button");
+          button.className = "option-btn";
+          button.textContent = option;
+          button.addEventListener("click", () => checkAnswer(option));
+          options.appendChild(button);
+        });
+      }
+
+      
+      function checkAnswer(selectedAnswer) {
+        if (answered) return;
+
+        answered = true;
+        const buttons = options.querySelectorAll(".option-btn");
+
+
+        buttons.forEach((button) => {
+          if (parseInt(button.textContent) === correctAnswer) {
+            button.classList.add("correct");
+          } else if (parseInt(button.textContent) === selectedAnswer) {
+            button.classList.add("incorrect");
+          }
+        });
+
+        feedback.classList.remove("hidden");
+
+        if (selectedAnswer === correctAnswer) {
+          feedback.textContent = "Benar! Kamu memahami atom ini dengan baik.";
+          feedback.className = "feedback correct";
+          score += 10;
+          scoreValue.textContent = score;
+        } else {
+          feedback.textContent = `Jawaban salah. Jawaban yang benar adalah ${correctAnswer}.`;
+          feedback.className = "feedback incorrect";
+        }
+      }
+
+      function showElementInfo() {
+        alert(
+          `Tentang ${currentElement.name} (${currentElement.symbol}):\n\n${
+            currentElement.description
+          }\n\nNomor Atom: ${currentElement.atomicNumber}\nProton: ${
+            currentElement.protons
+          }\nNeutron: ${currentElement.neutrons}\nElektron: ${
+            currentElement.electrons
+          }\nKonfigurasi Elektron: ${currentElement.electronConfiguration.join(
+            ", "
+          )}`
+        );
+      }
+
+      window.addEventListener("resize", function () {
+        if (currentElement) {
+          clearAtomDisplay();
+          createOrbitsAndElectrons(currentElement);
+        }
+      });
+      window.addEventListener("load", init);
+    </script>
+  </body>
+</html>
